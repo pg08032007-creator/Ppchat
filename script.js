@@ -56,17 +56,23 @@ async function signup() {
     }
 
     // Verifica se o e-mail já existe
-    const { data } = await supabase
-        .from("users")
-        .select("email")
-        .eq("email", email)
-        .single();
+const { data, error } = await supabase
+    .from("users")
+    .select("email")
+    .eq("email", email)
+    .maybeSingle();
 
-    if (data) {
-        msg.innerHTML = "Este e-mail já está cadastrado.";
-        msg.classList.add("error");
-        return;
-    }
+if (error) {
+    msg.innerHTML = "Erro ao conectar ao banco: " + error.message;
+    msg.classList.add("error");
+    return;
+}
+
+if (data) {
+    msg.innerHTML = "Este e-mail já está cadastrado.";
+    msg.classList.add("error");
+    return;
+}
 
     // Guarda temporariamente até completar o perfil
     localStorage.setItem(

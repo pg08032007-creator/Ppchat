@@ -1,200 +1,222 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Pajama Party</title><link rel="stylesheet" href="style.css"><link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
-<script src="script.js"></script>
-<body><div class="container"><img src="Logo.jpg" class="logo" alt="Logo">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil Genérico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-dark:#0a0a0c;
+      --bg-card:#141417;
+      --accent-purple:#a855f7;
+      --accent-pink:#ec4899;
+      --text-main:#fff;
+    }
 
-<div class="subtitle">
-    Social Media Cloud Premium
-</div>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Inter',sans-serif;
+    }
 
-<!-- LOGIN -->
+    body{
+      background:var(--bg-dark);
+      color:var(--text-main);
+    }
 
-<div id="loginForm" class="form">
+    .banner-container{
+      width:100%;
+      height:220px;
+      background:#1a1a1e;
+      position:relative;
+      overflow:hidden;
+      border-radius:0 0 30px 30px;
+    }
 
-    <div class="input-box">
-        <i class="fa-solid fa-at"></i>
-        <input type="text"
-        id="loginUser"
-        placeholder="Nome de usuário">
+    .banner-container img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .banner-container::after{
+      content:"";
+      position:absolute;
+      bottom:0;
+      left:0;
+      width:100%;
+      height:60%;
+      background:linear-gradient(transparent,var(--bg-dark));
+    }
+
+    .profile{
+      max-width:420px;
+      margin:-70px auto 40px;
+      position:relative;
+      z-index:2;
+      text-align:center;
+      padding:0 20px;
+    }
+
+    .avatar{
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      padding:4px;
+      background:linear-gradient(45deg,var(--accent-purple),var(--accent-pink));
+      margin:0 auto;
+    }
+
+    .avatar img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      border:4px solid var(--bg-dark);
+      object-fit:cover;
+      background:var(--bg-dark);
+    }
+
+    h2{
+      margin-top:14px;
+      font-size:28px;
+      font-weight:900;
+    }
+
+    .badge{
+      display:inline-block;
+      margin-left:8px;
+      background:gold;
+      color:black;
+      font-size:10px;
+      font-weight:900;
+      padding:3px 7px;
+      border-radius:6px;
+      vertical-align:middle;
+    }
+
+    .gender{
+      color:var(--accent-pink);
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-top:4px;
+    }
+
+    .stats{
+      display:flex;
+      justify-content:center;
+      gap:34px;
+      margin:22px 0;
+    }
+
+    .stats div{
+      text-align:center;
+    }
+
+    .stats b{
+      display:block;
+      font-size:22px;
+      font-weight:800;
+    }
+
+    .stats span{
+      font-size:11px;
+      color:#8b8b95;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+
+    .bio{
+      color:#b3b3bb;
+      line-height:1.6;
+      font-size:14px;
+      max-width:340px;
+      margin:0 auto 24px;
+    }
+
+    .btn{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:18px;
+      background:linear-gradient(135deg,var(--accent-purple),var(--accent-pink));
+      color:#fff;
+      font-weight:800;
+      cursor:pointer;
+      margin-bottom:26px;
+    }
+
+    .section-title{
+      text-align:left;
+      color:#7a7a84;
+      font-size:11px;
+      text-transform:uppercase;
+      font-weight:900;
+      letter-spacing:2px;
+      margin-bottom:12px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:6px;
+    }
+
+    .grid img{
+      width:100%;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-radius:10px;
+      border:1px solid #222;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner-container">
+    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200" alt="Banner">
+  </div>
+
+  <div class="profile">
+
+    <div class="avatar">
+      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Usuario" alt="Avatar">
     </div>
 
-    <div class="input-box">
-        <i class="fa-solid fa-lock"></i>
+    <h2>@usuario_generico <span class="badge">PRO</span></h2>
 
-        <input type="password"
-        id="loginPass"
-        placeholder="Sua senha secreta">
+    <div class="gender">Neutro</div>
 
-        <i class="fa-solid fa-eye eye"
-        onclick="togglePassword('loginPass')"></i>
+    <div class="stats">
+      <div><b>1.245</b><span>Seguidores</span></div>
+      <div><b>321</b><span>Seguindo</span></div>
+      <div><b>48</b><span>Posts</span></div>
     </div>
 
-    <button class="btn" onclick="login()">
-        ENTRAR NA NUVEM
-    </button>
-
-    <div id="loginMessage" class="message"></div>
-
-    <div class="footer">
-        Ainda não é membro?
-        <a onclick="showSignup()">Criar Conta</a>
+    <div class="bio">
+      Criador de conteúdo • Design • Tecnologia • Música • Sempre aprendendo algo novo.
     </div>
 
-</div>
+    <button class="btn">Editar Perfil</button>
 
-<!-- CADASTRO -->
+    <div class="section-title">Galeria de Posts</div>
 
-<div id="signupForm" class="form hidden">
-
- <div class="input-box">
-    <i class="fa-solid fa-envelope"></i>
-    <input
-        type="email"
-        id="signupEmail"
-        placeholder="Seu e-mail">
- </div>
-    
-    <div class="input-box">
-        <i class="fa-solid fa-user"></i>
-
-        <input type="text"
-        id="signupUser"
-        placeholder="Nome de usuário">
+    <div class="grid">
+      <img src="https://picsum.photos/300?random=1">
+      <img src="https://picsum.photos/300?random=2">
+      <img src="https://picsum.photos/300?random=3">
+      <img src="https://picsum.photos/300?random=4">
+      <img src="https://picsum.photos/300?random=5">
+      <img src="https://picsum.photos/300?random=6">
+      <img src="https://picsum.photos/300?random=7">
+      <img src="https://picsum.photos/300?random=8">
+      <img src="https://picsum.photos/300?random=9">
     </div>
 
-    <div class="input-box">
-        <i class="fa-solid fa-lock"></i>
+  </div>
 
-        <input type="password"
-        id="signupPass"
-        placeholder="Crie uma senha">
-
-        <i class="fa-solid fa-eye eye"
-        onclick="togglePassword('signupPass')"></i>
-    </div>
-
-    <div class="input-box">
-        <i class="fa-solid fa-shield"></i>
-
-        <input type="password"
-        id="signupPass2"
-        placeholder="Confirme sua senha">
-
-        <i class="fa-solid fa-eye eye"
-        onclick="togglePassword('signupPass2')"></i>
-    </div>
-
-    <button class="btn" onclick="signup()">
-        CRIAR CONTA
-    </button>
-
-    <div id="signupMessage" class="message"></div>
-
-    <div class="footer">
-        Já possui conta?
-        <a onclick="showLogin()">Entrar</a>
-    </div>
-
-</div>
-
-<!-- IDENTIDADE -->
-
-<div id="identityForm" class="form hidden">
-
-    <h1 class="identity-title">
-        Identidade
-    </h1>
-
-    <div class="avatar-preview">
-        <img id="selectedAvatar" src="avatar1.png">
-    </div>
-
-    <div class="avatar-list">
-
-        <img src="avatar1.png"
-        class="avatar-option active-avatar"
-        onclick="selectAvatar(this)">
-
-        <img src="avatar2.png"
-        class="avatar-option"
-        onclick="selectAvatar(this)">
-
-        <img src="avatar3.png"
-        class="avatar-option"
-        onclick="selectAvatar(this)">
-
-        <img src="avatar4.png"
-        class="avatar-option"
-        onclick="selectAvatar(this)">
-
-    </div>
-
-    <div class="input-box">
-
-        <i class="fa-solid fa-calendar"></i>
-
-        <input
-        type="date"
-        id="birthDate">
-
-    </div>
-
-    <div class="input-box">
-
-        <i class="fa-solid fa-pen"></i>
-
-        <input
-        type="text"
-        id="bio"
-        placeholder="Bio: No que você é bom?">
-
-    </div>
-
-    <div class="gender-container">
-
-        <div
-        class="gender-card"
-        onclick="selectGender(this,'Ele')">
-
-            ♂
-            <span>ELE</span>
-
-        </div>
-
-        <div
-        class="gender-card"
-        onclick="selectGender(this,'Ela')">
-
-            ♀
-            <span>ELA</span>
-
-        </div>
-
-        <div
-        class="gender-card"
-        onclick="selectGender(this,'Neutro')">
-
-            ○
-            <span>NEUTRO</span>
-
-        </div>
-
-    </div>
-
-    <button
-    class="btn"
-    onclick="finishProfile()">
-
-        ENTRAR NA COMUNIDADE
-
-    </button>
-
-</div>
-
-</div><!-- Biblioteca oficial do Supabase --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><!-- Configuração do Supabase --><script src="supabase.js"></script><!-- Lógica do aplicativo --><script src="script.js"></script></body>
+</body>
 </html>

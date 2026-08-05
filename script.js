@@ -1,3 +1,6 @@
+let selectedGender = "";
+let selectedAvatar = "avatar1.png";
+
 function togglePassword(id){
 
     const campo = document.getElementById(id);
@@ -23,6 +26,10 @@ function showLogin(){
 
     document
     .getElementById("signupForm")
+    .classList.add("hidden");
+
+    document
+    .getElementById("identityForm")
     .classList.add("hidden");
 
     document
@@ -87,7 +94,7 @@ function signup(){
     }
 
     localStorage.setItem(
-        "user_" + usuario,
+        "tempUser",
         JSON.stringify({
             usuario,
             senha
@@ -100,8 +107,16 @@ function signup(){
     msg.classList.add("success");
 
     setTimeout(() => {
-        showLogin();
-    }, 1500);
+
+        document
+        .getElementById("signupForm")
+        .classList.add("hidden");
+
+        document
+        .getElementById("identityForm")
+        .classList.remove("hidden");
+
+    },1500);
 }
 
 function login(){
@@ -157,5 +172,170 @@ function login(){
         "!"
         );
 
+        // Futuramente:
+        // window.location.href = "feed.html";
+
     },500);
+}
+
+function selectAvatar(element){
+
+    document
+    .querySelectorAll(".avatar-option")
+    .forEach(avatar => {
+
+        avatar.classList.remove(
+        "active-avatar"
+        );
+
+    });
+
+    element.classList.add(
+    "active-avatar"
+    );
+
+    selectedAvatar =
+    element.src;
+
+    document
+    .getElementById(
+    "selectedAvatar"
+    ).src = element.src;
+}
+
+function selectGender(element, gender){
+
+    document
+    .querySelectorAll(".gender-card")
+    .forEach(card => {
+
+        card.classList.remove(
+        "selected"
+        );
+
+    });
+
+    element.classList.add(
+    "selected"
+    );
+
+    selectedGender = gender;
+}
+
+function validateAge(date){
+
+    const today =
+    new Date();
+
+    const birth =
+    new Date(date);
+
+    let age =
+    today.getFullYear() -
+    birth.getFullYear();
+
+    const month =
+    today.getMonth() -
+    birth.getMonth();
+
+    if(
+        month < 0 ||
+        (
+            month === 0 &&
+            today.getDate() <
+            birth.getDate()
+        )
+    ){
+        age--;
+    }
+
+    return age >= 17;
+}
+
+function finishProfile(){
+
+    const birthDate =
+    document.getElementById(
+    "birthDate"
+    ).value;
+
+    const bio =
+    document.getElementById(
+    "bio"
+    ).value.trim();
+
+    if(!birthDate){
+
+        alert(
+        "A data de nascimento é obrigatória."
+        );
+
+        return;
+    }
+
+    if(
+        !validateAge(
+        birthDate
+        )
+    ){
+
+        alert(
+        "Você precisa ter pelo menos 17 anos."
+        );
+
+        return;
+    }
+
+    if(
+        selectedGender === ""
+    ){
+
+        alert(
+        "Selecione um gênero."
+        );
+
+        return;
+    }
+
+    const tempUser =
+    JSON.parse(
+        localStorage.getItem(
+        "tempUser"
+        )
+    );
+
+    localStorage.setItem(
+        "user_" + tempUser.usuario,
+        JSON.stringify({
+
+            usuario:
+            tempUser.usuario,
+
+            senha:
+            tempUser.senha,
+
+            avatar:
+            selectedAvatar,
+
+            bio:
+            bio,
+
+            birthDate:
+            birthDate,
+
+            gender:
+            selectedGender
+
+        })
+    );
+
+    localStorage.removeItem(
+    "tempUser"
+    );
+
+    alert(
+    "Perfil criado com sucesso!"
+    );
+
+    showLogin();
 }

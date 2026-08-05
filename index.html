@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil Genérico</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
   <style>
     :root{
       --bg-dark:#0a0a0c;
-      --bg-card:#141417;
       --accent-purple:#a855f7;
       --accent-pink:#ec4899;
-      --text-main:#fff;
+      --text-main:#ffffff;
     }
 
     *{
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family:'Inter',sans-serif;
+      font-family:"Inter",sans-serif;
     }
 
     body{
@@ -26,13 +28,14 @@
       color:var(--text-main);
     }
 
+    /* Banner menor */
     .banner-container{
       width:100%;
-      height:220px;
+      height:160px;
       background:#1a1a1e;
       position:relative;
       overflow:hidden;
-      border-radius:0 0 30px 30px;
+      border-radius:0 0 28px 28px;
     }
 
     .banner-container img{
@@ -47,13 +50,38 @@
       bottom:0;
       left:0;
       width:100%;
-      height:60%;
+      height:55%;
       background:linear-gradient(transparent,var(--bg-dark));
+    }
+
+    /* Engrenagem */
+    .settings-btn{
+      position:absolute;
+      top:16px;
+      right:16px;
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:rgba(0,0,0,0.45);
+      backdrop-filter:blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-size:18px;
+      cursor:pointer;
+      z-index:10;
+      transition:0.2s;
+    }
+
+    .settings-btn:hover{
+      background:rgba(168,85,247,0.35);
+      transform:rotate(20deg);
     }
 
     .profile{
       max-width:420px;
-      margin:-70px auto 40px;
+      margin:-52px auto 36px;
       position:relative;
       z-index:2;
       text-align:center;
@@ -61,8 +89,8 @@
     }
 
     .avatar{
-      width:120px;
-      height:120px;
+      width:108px;
+      height:108px;
       border-radius:50%;
       padding:4px;
       background:linear-gradient(45deg,var(--accent-purple),var(--accent-pink));
@@ -80,19 +108,14 @@
 
     h2{
       margin-top:14px;
-      font-size:28px;
+      font-size:26px;
       font-weight:900;
     }
 
-    .badge{
-      display:inline-block;
+    .verified{
+      color:#1d9bf0;
+      font-size:18px;
       margin-left:8px;
-      background:gold;
-      color:black;
-      font-size:10px;
-      font-weight:900;
-      padding:3px 7px;
-      border-radius:6px;
       vertical-align:middle;
     }
 
@@ -108,7 +131,7 @@
     .stats{
       display:flex;
       justify-content:center;
-      gap:34px;
+      gap:30px;
       margin:22px 0;
     }
 
@@ -118,7 +141,7 @@
 
     .stats b{
       display:block;
-      font-size:22px;
+      font-size:20px;
       font-weight:800;
     }
 
@@ -135,18 +158,6 @@
       font-size:14px;
       max-width:340px;
       margin:0 auto 24px;
-    }
-
-    .btn{
-      width:100%;
-      padding:16px;
-      border:none;
-      border-radius:18px;
-      background:linear-gradient(135deg,var(--accent-purple),var(--accent-pink));
-      color:#fff;
-      font-weight:800;
-      cursor:pointer;
-      margin-bottom:26px;
     }
 
     .section-title{
@@ -176,17 +187,26 @@
 </head>
 <body>
 
+  <!-- Banner -->
   <div class="banner-container">
     <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200" alt="Banner">
+
+    <div class="settings-btn" onclick="alert('Abrir configurações do perfil')">
+      <i class="fas fa-cog"></i>
+    </div>
   </div>
 
+  <!-- Perfil -->
   <div class="profile">
 
     <div class="avatar">
       <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Usuario" alt="Avatar">
     </div>
 
-    <h2>@usuario_generico <span class="badge">PRO</span></h2>
+    <h2>
+      @usuario_generico
+      <i class="fas fa-check-circle verified"></i>
+    </h2>
 
     <div class="gender">Neutro</div>
 
@@ -200,20 +220,18 @@
       Criador de conteúdo • Design • Tecnologia • Música • Sempre aprendendo algo novo.
     </div>
 
-    <button class="btn">Editar Perfil</button>
-
     <div class="section-title">Galeria de Posts</div>
 
     <div class="grid">
-      <img src="https://picsum.photos/300?random=1">
-      <img src="https://picsum.photos/300?random=2">
-      <img src="https://picsum.photos/300?random=3">
-      <img src="https://picsum.photos/300?random=4">
-      <img src="https://picsum.photos/300?random=5">
-      <img src="https://picsum.photos/300?random=6">
-      <img src="https://picsum.photos/300?random=7">
-      <img src="https://picsum.photos/300?random=8">
-      <img src="https://picsum.photos/300?random=9">
+      <img src="https://picsum.photos/300?random=1" alt="Post 1">
+      <img src="https://picsum.photos/300?random=2" alt="Post 2">
+      <img src="https://picsum.photos/300?random=3" alt="Post 3">
+      <img src="https://picsum.photos/300?random=4" alt="Post 4">
+      <img src="https://picsum.photos/300?random=5" alt="Post 5">
+      <img src="https://picsum.photos/300?random=6" alt="Post 6">
+      <img src="https://picsum.photos/300?random=7" alt="Post 7">
+      <img src="https://picsum.photos/300?random=8" alt="Post 8">
+      <img src="https://picsum.photos/300?random=9" alt="Post 9">
     </div>
 
   </div>

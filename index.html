@@ -1,115 +1,95 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Pajama Party</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="stylesheet"
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Pajama Party</title><link rel="stylesheet" href="style.css"><link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
+</head><body><div class="container"><img src="Logo.jpg" class="logo" alt="Logo">
 
-<body>
+<div class="subtitle">
+    Social Media Cloud Premium
+</div>
 
-<div class="container">
+<!-- LOGIN -->
 
-    <img src="Logo.jpg" class="logo" alt="Logo">
+<div id="loginForm" class="form">
 
-    <div class="subtitle">
-        Social Media Cloud Premium
+    <div class="input-box">
+        <i class="fa-solid fa-at"></i>
+        <input type="text"
+        id="loginUser"
+        placeholder="Nome de usuário">
     </div>
 
-    <!-- LOGIN -->
+    <div class="input-box">
+        <i class="fa-solid fa-lock"></i>
 
-    <div id="loginForm" class="form">
+        <input type="password"
+        id="loginPass"
+        placeholder="Sua senha secreta">
 
-        <div class="input-box">
-            <i class="fa-solid fa-at"></i>
-            <input type="text"
-            id="loginUser"
-            placeholder="Nome de usuário">
-        </div>
-
-        <div class="input-box">
-            <i class="fa-solid fa-lock"></i>
-
-            <input type="password"
-            id="loginPass"
-            placeholder="Sua senha secreta">
-
-            <i class="fa-solid fa-eye eye"
-            onclick="togglePassword('loginPass')"></i>
-        </div>
-
-        <button class="btn" onclick="login()">
-            ENTRAR NA NUVEM
-        </button>
-
-        <div id="loginMessage" class="message"></div>
-
-        <div class="footer">
-            Ainda não é membro?
-            <a onclick="showSignup()">Criar Conta</a>
-        </div>
-
+        <i class="fa-solid fa-eye eye"
+        onclick="togglePassword('loginPass')"></i>
     </div>
 
-    <!-- CADASTRO -->
+    <button class="btn" onclick="login()">
+        ENTRAR NA NUVEM
+    </button>
 
-    <div id="signupForm" class="form hidden">
+    <div id="loginMessage" class="message"></div>
 
-        <div class="input-box">
-            <i class="fa-solid fa-user"></i>
-
-            <input type="text"
-            id="signupUser"
-            placeholder="Nome de usuário">
-        </div>
-
-        <div class="input-box">
-            <i class="fa-solid fa-lock"></i>
-
-            <input type="password"
-            id="signupPass"
-            placeholder="Crie uma senha">
-
-            <i class="fa-solid fa-eye eye"
-            onclick="togglePassword('signupPass')"></i>
-        </div>
-
-        <div class="input-box">
-            <i class="fa-solid fa-shield"></i>
-
-            <input type="password"
-            id="signupPass2"
-            placeholder="Confirme sua senha">
-
-            <i class="fa-solid fa-eye eye"
-            onclick="togglePassword('signupPass2')"></i>
-        </div>
-
-        <button class="btn" onclick="signup()">
-            CRIAR CONTA
-        </button>
-
-        <div id="signupMessage" class="message"></div>
-
-        <div class="footer">
-            Já possui conta?
-            <a onclick="showLogin()">Entrar</a>
-        </div>
-
+    <div class="footer">
+        Ainda não é membro?
+        <a onclick="showSignup()">Criar Conta</a>
     </div>
 
 </div>
 
-<script src="script.js"></script>
+<!-- CADASTRO -->
 
-</body>
-</html>
+<div id="signupForm" class="form hidden">
+
+    <div class="input-box">
+        <i class="fa-solid fa-user"></i>
+
+        <input type="text"
+        id="signupUser"
+        placeholder="Nome de usuário">
+    </div>
+
+    <div class="input-box">
+        <i class="fa-solid fa-lock"></i>
+
+        <input type="password"
+        id="signupPass"
+        placeholder="Crie uma senha">
+
+        <i class="fa-solid fa-eye eye"
+        onclick="togglePassword('signupPass')"></i>
+    </div>
+
+    <div class="input-box">
+        <i class="fa-solid fa-shield"></i>
+
+        <input type="password"
+        id="signupPass2"
+        placeholder="Confirme sua senha">
+
+        <i class="fa-solid fa-eye eye"
+        onclick="togglePassword('signupPass2')"></i>
+    </div>
+
+    <button class="btn" onclick="signup()">
+        CRIAR CONTA
+    </button>
+
+    <div id="signupMessage" class="message"></div>
+
+    <div class="footer">
+        Já possui conta?
+        <a onclick="showLogin()">Entrar</a>
+    </div>
+
+</div>
 
 <!-- IDENTIDADE -->
 
@@ -120,8 +100,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </h1>
 
     <div class="avatar-preview">
-        <img id="selectedAvatar"
-        src="avatar1.png">
+        <img id="selectedAvatar" src="avatar1.png">
     </div>
 
     <div class="avatar-list">
@@ -205,3 +184,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </button>
 
 </div>
+
+</div><!-- Biblioteca oficial do Supabase --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><!-- Configuração do Supabase --><script src="supabase.js"></script><!-- Lógica do aplicativo --><script src="script.js"></script></body>
+</html>

@@ -1,0 +1,303 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Dots Indicadores */
+.step-dots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2a2a38;
+}
+
+.dot.active {
+  width: 28px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #713be8, #d83193);
+}
+
+.step {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Logo */
+.logo-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.logo-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px auto;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.logo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.subtitle {
+  color: #72737a;
+  font-size: 14px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* AVATAR PRINCIPAL E ROLETA (CARROSSEL) */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.main-avatar-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 18px;
+}
+
+.main-avatar-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  padding: 3px;
+  background: #d83193;
+  box-shadow: 0 0 20px rgba(216, 49, 147, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-avatar-ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #000000;
+}
+
+.camera-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background-color: #120d1c;
+  border: 1px solid #d83193;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+/* ROLETA HORIZONTAL */
+.avatars-row {
+  display: flex;
+  gap: 14px;
+  padding: 8px 4px 18px 4px;
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  border-bottom: 2px solid #713be8;
+  /* Oculta scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.avatars-row::-webkit-scrollbar {
+  display: none;
+}
+
+.avatar-option {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 2px;
+  background: transparent;
+  transition: transform 0.2s ease;
+}
+
+.avatar-option img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #000000;
+}
+
+.avatar-option.selected {
+  background: linear-gradient(135deg, #d83193, #713be8);
+  box-shadow: 0 0 12px rgba(216, 49, 147, 0.7);
+}
+
+/* FORMULÁRIO */
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 18px;
+  color: #8c8c9e;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 16px 45px 16px 48px;
+  background-color: #090912;
+  border: 1px solid #181826;
+  border-radius: 28px;
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+}
+
+.input-group input::placeholder {
+  color: #686975;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 18px;
+  color: #8c8c9e;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* GÊNERO */
+.gender-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.gender-btn {
+  background-color: #090912;
+  border: 1px solid #181826;
+  border-radius: 18px;
+  padding: 12px 6px;
+  color: #686975;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.gender-btn i {
+  font-size: 16px;
+}
+
+.gender-btn.active {
+  border-color: #713be8;
+  color: #ffffff;
+  background-color: rgba(113, 59, 232, 0.12);
+}
+
+/* BOTÕES */
+.btn-submit {
+  margin-top: 8px;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 28px;
+  background: linear-gradient(90deg, #713be8 0%, #d83193 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: #686975;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: center;
+}
+
+.footer-text {
+  margin-top: 20px;
+  color: #686975;
+  font-size: 14px;
+  text-align: center;
+}
+
+.footer-text a {
+  color: #e03f8a;
+  text-decoration: none;
+  font-weight: 600;
+}

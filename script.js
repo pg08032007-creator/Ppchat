@@ -1,341 +1,192 @@
 let selectedGender = "";
 let selectedAvatar = "avatar1.png";
 
-function togglePassword(id){
-
-    const campo = document.getElementById(id);
-
-    campo.type =
-    campo.type === "password"
-    ? "text"
-    : "password";
+function togglePassword(id) {
+  const campo = document.getElementById(id);
+  campo.type = campo.type === "password" ? "text" : "password";
 }
 
-function showSignup(){
-
-    document
-    .getElementById("loginForm")
-    .classList.add("hidden");
-
-    document
-    .getElementById("signupForm")
-    .classList.remove("hidden");
+function showSignup() {
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("signupForm").classList.remove("hidden");
 }
 
-function showLogin(){
-
-    document
-    .getElementById("signupForm")
-    .classList.add("hidden");
-
-    document
-    .getElementById("identityForm")
-    .classList.add("hidden");
-
-    document
-    .getElementById("loginForm")
-    .classList.remove("hidden");
+function showLogin() {
+  document.getElementById("signupForm").classList.add("hidden");
+  document.getElementById("identityForm").classList.add("hidden");
+  document.getElementById("loginForm").classList.remove("hidden");
 }
 
-function signup(){
+// CADASTRO
+async function signup() {
+  const usuario = document.getElementById("signupUser").value.trim();
+  const senha = document.getElementById("signupPass").value;
+  const confirmar = document.getElementById("signupPass2").value;
+  const msg = document.getElementById("signupMessage");
 
-    const usuario =
-    document.getElementById("signupUser")
-    .value.trim();
+  msg.innerHTML = "";
+  msg.className = "message";
 
-    const senha =
-    document.getElementById("signupPass")
-    .value;
+  if (usuario.length < 4) {
+    msg.innerHTML = "Usuário deve ter no mínimo 4 caracteres.";
+    msg.classList.add("error");
+    return;
+  }
 
-    const confirmar =
-    document.getElementById("signupPass2")
-    .value;
+  if (senha.length < 8) {
+    msg.innerHTML = "Senha deve ter no mínimo 8 caracteres.";
+    msg.classList.add("error");
+    return;
+  }
 
-    const msg =
-    document.getElementById("signupMessage");
+  if (senha !== confirmar) {
+    msg.innerHTML = "As senhas não coincidem.";
+    msg.classList.add("error");
+    return;
+  }
 
-    msg.innerHTML = "";
-    msg.className = "message";
+  // Verifica se o usuário já existe
+  const { data } = await supabase
+    .from("users")
+    .select("username")
+    .eq("username", usuario)
+    .single();
 
-    if(usuario.length < 4){
+  if (data) {
+    msg.innerHTML = "Este usuário já existe.";
+    msg.classList.add("error");
+    return;
+  }
 
-        msg.innerHTML =
-        "Usuário deve ter no mínimo 4 caracteres.";
+  // Guarda temporariamente até completar o perfil
+  localStorage.setItem(
+    "tempUser",
+    JSON.stringify({
+      usuario,
+      senha
+    })
+  );
 
-        msg.classList.add("error");
-        return;
-    }
+  msg.innerHTML = "Conta criada com sucesso!";
+  msg.classList.add("success");
 
-    if(senha.length < 8){
-
-        msg.innerHTML =
-        "Senha deve ter no mínimo 8 caracteres.";
-
-        msg.classList.add("error");
-        return;
-    }
-
-    if(senha !== confirmar){
-
-        msg.innerHTML =
-        "As senhas não coincidem.";
-
-        msg.classList.add("error");
-        return;
-    }
-
-    if(localStorage.getItem("user_" + usuario)){
-
-        msg.innerHTML =
-        "Este usuário já existe.";
-
-        msg.classList.add("error");
-        return;
-    }
-
-    localStorage.setItem(
-        "tempUser",
-        JSON.stringify({
-            usuario,
-            senha
-        })
-    );
-
-    msg.innerHTML =
-    "Conta criada com sucesso!";
-
-    msg.classList.add("success");
-
-    setTimeout(() => {
-
-        document
-        .getElementById("signupForm")
-        .classList.add("hidden");
-
-        document
-        .getElementById("identityForm")
-        .classList.remove("hidden");
-
-    },1500);
+  setTimeout(() => {
+    document.getElementById("signupForm").classList.add("hidden");
+    document.getElementById("identityForm").classList.remove("hidden");
+  }, 1500);
 }
 
-function login(){
+// LOGIN
+async function login() {
+  const usuario = document.getElementById("loginUser").value.trim();
+  const senha = document.getElementById("loginPass").value;
+  const msg = document.getElementById("loginMessage");
 
-    const usuario =
-    document.getElementById("loginUser")
-    .value.trim();
+  msg.innerHTML = "";
+  msg.className = "message";
 
-    const senha =
-    document.getElementById("loginPass")
-    .value;
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("username", usuario)
+    .single();
 
-    const msg =
-    document.getElementById("loginMessage");
+  if (error || !data) {
+    msg.innerHTML = "Usuário não encontrado.";
+    msg.classList.add("error");
+    return;
+  }
 
-    msg.innerHTML = "";
-    msg.className = "message";
+  if (data.password !== senha) {
+    msg.innerHTML = "Senha incorreta.";
+    msg.classList.add("error");
+    return;
+  }
 
-    const conta =
-    localStorage.getItem("user_" + usuario);
+  msg.innerHTML = "Login realizado com sucesso!";
+  msg.classList.add("success");
 
-    if(!conta){
-
-        msg.innerHTML =
-        "Usuário não encontrado.";
-
-        msg.classList.add("error");
-        return;
-    }
-
-    const dados =
-    JSON.parse(conta);
-
-    if(dados.senha !== senha){
-
-        msg.innerHTML =
-        "Senha incorreta.";
-
-        msg.classList.add("error");
-        return;
-    }
-
-    msg.innerHTML =
-    "Login realizado com sucesso!";
-
-    msg.classList.add("success");
-
-    setTimeout(() => {
-
-        alert(
-        "Bem-vindo, " +
-        dados.usuario +
-        "!"
-        );
-
-        // Futuramente:
-        // window.location.href = "feed.html";
-
-    },500);
+  setTimeout(() => {
+    alert("Bem-vindo, " + data.username + "!");
+  }, 500);
 }
 
-function selectAvatar(element){
+// AVATAR
+function selectAvatar(element) {
+  document.querySelectorAll(".avatar-option").forEach(avatar => {
+    avatar.classList.remove("active-avatar");
+  });
 
-    document
-    .querySelectorAll(".avatar-option")
-    .forEach(avatar => {
+  element.classList.add("active-avatar");
+  selectedAvatar = element.getAttribute("src");
+  document.getElementById("selectedAvatar").src = selectedAvatar;
+}
 
-        avatar.classList.remove(
-        "active-avatar"
-        );
+// GÊNERO
+function selectGender(element, gender) {
+  document.querySelectorAll(".gender-card").forEach(card => {
+    card.classList.remove("selected");
+  });
 
+  element.classList.add("selected");
+  selectedGender = gender;
+}
+
+// IDADE
+function validateAge(date) {
+  const today = new Date();
+  const birth = new Date(date);
+
+  let age = today.getFullYear() - birth.getFullYear();
+  const month = today.getMonth() - birth.getMonth();
+
+  if (month < 0 || (month === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+
+  return age >= 17;
+}
+
+// FINALIZA PERFIL
+async function finishProfile() {
+  const birthDate = document.getElementById("birthDate").value;
+  const bio = document.getElementById("bio").value.trim();
+
+  if (!birthDate) {
+    alert("A data de nascimento é obrigatória.");
+    return;
+  }
+
+  if (!validateAge(birthDate)) {
+    alert("Você precisa ter pelo menos 17 anos.");
+    return;
+  }
+
+  if (selectedGender === "") {
+    alert("Selecione um gênero.");
+    return;
+  }
+
+  const tempUser = JSON.parse(localStorage.getItem("tempUser"));
+
+  const { error } = await supabase
+    .from("users")
+    .insert({
+      username: tempUser.usuario,
+      password: tempUser.senha,
+      avatar: selectedAvatar,
+      bio: bio,
+      birth_date: birthDate,
+      gender: selectedGender
     });
 
-    element.classList.add(
-    "active-avatar"
-    );
+  if (error) {
+    alert("Erro ao salvar perfil: " + error.message);
+    return;
+  }
 
-    selectedAvatar =
-    element.src;
+  localStorage.removeItem("tempUser");
 
-    document
-    .getElementById(
-    "selectedAvatar"
-    ).src = element.src;
-}
-
-function selectGender(element, gender){
-
-    document
-    .querySelectorAll(".gender-card")
-    .forEach(card => {
-
-        card.classList.remove(
-        "selected"
-        );
-
-    });
-
-    element.classList.add(
-    "selected"
-    );
-
-    selectedGender = gender;
-}
-
-function validateAge(date){
-
-    const today =
-    new Date();
-
-    const birth =
-    new Date(date);
-
-    let age =
-    today.getFullYear() -
-    birth.getFullYear();
-
-    const month =
-    today.getMonth() -
-    birth.getMonth();
-
-    if(
-        month < 0 ||
-        (
-            month === 0 &&
-            today.getDate() <
-            birth.getDate()
-        )
-    ){
-        age--;
-    }
-
-    return age >= 17;
-}
-
-function finishProfile(){
-
-    const birthDate =
-    document.getElementById(
-    "birthDate"
-    ).value;
-
-    const bio =
-    document.getElementById(
-    "bio"
-    ).value.trim();
-
-    if(!birthDate){
-
-        alert(
-        "A data de nascimento é obrigatória."
-        );
-
-        return;
-    }
-
-    if(
-        !validateAge(
-        birthDate
-        )
-    ){
-
-        alert(
-        "Você precisa ter pelo menos 17 anos."
-        );
-
-        return;
-    }
-
-    if(
-        selectedGender === ""
-    ){
-
-        alert(
-        "Selecione um gênero."
-        );
-
-        return;
-    }
-
-    const tempUser =
-    JSON.parse(
-        localStorage.getItem(
-        "tempUser"
-        )
-    );
-
-    localStorage.setItem(
-        "user_" + tempUser.usuario,
-        JSON.stringify({
-
-            usuario:
-            tempUser.usuario,
-
-            senha:
-            tempUser.senha,
-
-            avatar:
-            selectedAvatar,
-
-            bio:
-            bio,
-
-            birthDate:
-            birthDate,
-
-            gender:
-            selectedGender
-
-        })
-    );
-
-    localStorage.removeItem(
-    "tempUser"
-    );
-
-    alert(
-    "Perfil criado com sucesso!"
-    );
-
-    showLogin();
+  alert("Perfil criado com sucesso!");
+  showLogin();
 }

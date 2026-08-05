@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pajama Party</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#000;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:100%;
+    max-width:420px;
+    padding:25px;
+    text-align:center;
+}
+
+.logo{
+    width:150px;
+    height:150px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-bottom:15px;
+}
+
+.subtitle{
+    color:rgba(255,255,255,.35);
+    font-size:18px;
+    margin-bottom:35px;
+}
+
+.input-box{
+    width:100%;
+    height:72px;
+    background:#050510;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:36px;
+    display:flex;
+    align-items:center;
+    padding:0 25px;
+    margin-bottom:22px;
+}
+
+.input-box i{
+    color:#9c9c9c;
+    font-size:22px;
+    margin-right:18px;
+}
+
+.input-box input{
+    width:100%;
+    background:none;
+    border:none;
+    outline:none;
+    color:white;
+    font-size:20px;
+}
+
+.input-box input::placeholder{
+    color:#6f6f6f;
+}
+
+.login-btn{
+    width:100%;
+    height:82px;
+    border:none;
+    border-radius:41px;
+    margin-top:25px;
+    cursor:pointer;
+
+    background:linear-gradient(
+    90deg,
+    #7B3FE4 0%,
+    #C22D88 100%
+    );
+
+    color:white;
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:1px;
+
+    box-shadow:
+    0 0 25px rgba(194,45,136,.25),
+    0 0 40px rgba(123,63,228,.15);
+
+    transition:.3s;
+}
+
+.login-btn:hover{
+    transform:scale(1.02);
+}
+
+.register{
+    margin-top:35px;
+    font-size:18px;
+    color:rgba(255,255,255,.4);
+}
+
+.register a{
+    text-decoration:none;
+    color:#D43D8F;
+    font-weight:700;
+}
+
+.fade{
+    animation:fade .8s ease;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container fade">
+
+    <!-- Troque pela logo real -->
+    <img src="logo.png" class="logo">
+
+    <div class="subtitle">
+        Social Media Cloud Premium
+    </div>
+
+    <div class="input-box">
+        <i class="fa-solid fa-at"></i>
+        <input type="text" placeholder="Nome de usuário">
+    </div>
+
+    <div class="input-box">
+        <i class="fa-solid fa-key"></i>
+        <input type="password" placeholder="Sua senha secreta">
+    </div>
+
+    <button class="login-btn" onclick="login()">
+        ENTRAR NA NUVEM
+    </button>
+
+    <div class="register">
+        Ainda não é membro?
+        <a href="#">Criar Conta</a>
+    </div>
+
+</div>
+
+<script>
+function login(){
+
+    let usuario =
+    document.querySelectorAll("input")[0].value;
+
+    let senha =
+    document.querySelectorAll("input")[1].value;
+
+    if(usuario === "" || senha === ""){
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    alert("Login realizado com sucesso!");
+}
+</script>
+
+</body>
+</html>

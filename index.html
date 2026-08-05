@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Pajama Party</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -21,20 +23,20 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
+    padding:20px;
 }
 
 .container{
     width:100%;
-    max-width:420px;
-    padding:25px;
+    max-width:430px;
     text-align:center;
+    animation:fade .8s ease;
 }
 
 .logo{
     width:150px;
     height:150px;
-    object-fit:cover;
-    border-radius:12px;
+    object-fit:contain;
     margin-bottom:15px;
 }
 
@@ -44,81 +46,105 @@ body{
     margin-bottom:35px;
 }
 
+.form{
+    display:block;
+}
+
+.hidden{
+    display:none;
+}
+
 .input-box{
     width:100%;
     height:72px;
     background:#050510;
-    border:1px solid rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.1);
     border-radius:36px;
     display:flex;
     align-items:center;
     padding:0 25px;
-    margin-bottom:22px;
+    margin-bottom:18px;
 }
 
 .input-box i{
-    color:#9c9c9c;
-    font-size:22px;
-    margin-right:18px;
+    color:#8e8e8e;
+    font-size:20px;
+    margin-right:15px;
 }
 
 .input-box input{
-    width:100%;
+    flex:1;
     background:none;
     border:none;
     outline:none;
-    color:white;
-    font-size:20px;
+    color:#fff;
+    font-size:18px;
 }
 
 .input-box input::placeholder{
-    color:#6f6f6f;
+    color:#666;
 }
 
-.login-btn{
-    width:100%;
-    height:82px;
-    border:none;
-    border-radius:41px;
-    margin-top:25px;
+.eye{
     cursor:pointer;
+}
+
+.btn{
+    width:100%;
+    height:80px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    margin-top:15px;
 
     background:linear-gradient(
-    90deg,
-    #7B3FE4 0%,
-    #C22D88 100%
+        90deg,
+        #7B3FE4,
+        #C22D88
     );
 
     color:white;
-    font-size:22px;
+    font-size:20px;
     font-weight:700;
     letter-spacing:1px;
 
     box-shadow:
-    0 0 25px rgba(194,45,136,.25),
-    0 0 40px rgba(123,63,228,.15);
+    0 0 25px rgba(123,63,228,.25),
+    0 0 35px rgba(194,45,136,.25);
 
     transition:.3s;
 }
 
-.login-btn:hover{
+.btn:hover{
     transform:scale(1.02);
 }
 
-.register{
-    margin-top:35px;
-    font-size:18px;
-    color:rgba(255,255,255,.4);
+.footer{
+    margin-top:25px;
+    color:rgba(255,255,255,.45);
+    font-size:17px;
 }
 
-.register a{
-    text-decoration:none;
+.footer a{
     color:#D43D8F;
-    font-weight:700;
+    text-decoration:none;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.fade{
-    animation:fade .8s ease;
+.message{
+    margin-top:15px;
+    color:#fff;
+    font-size:15px;
+    min-height:20px;
+}
+
+.success{
+    color:#45ff91;
+}
+
+.error{
+    color:#ff5c5c;
 }
 
 @keyframes fade{
@@ -131,56 +157,271 @@ body{
         transform:translateY(0);
     }
 }
+
 </style>
 </head>
 <body>
 
-<div class="container fade">
+<div class="container">
 
-    <!-- Troque pela logo real -->
-    <img src="logo.png" class="logo">
+    <img src="Logo.jpg" class="logo" alt="Logo">
 
     <div class="subtitle">
         Social Media Cloud Premium
     </div>
 
-    <div class="input-box">
-        <i class="fa-solid fa-at"></i>
-        <input type="text" placeholder="Nome de usuário">
+    <!-- LOGIN -->
+
+    <div id="loginForm" class="form">
+
+        <div class="input-box">
+            <i class="fa-solid fa-at"></i>
+            <input
+            type="text"
+            id="loginUser"
+            placeholder="Nome de usuário">
+        </div>
+
+        <div class="input-box">
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+            type="password"
+            id="loginPass"
+            placeholder="Sua senha secreta">
+
+            <i
+            class="fa-solid fa-eye eye"
+            onclick="togglePassword('loginPass')"></i>
+        </div>
+
+        <button class="btn" onclick="login()">
+            ENTRAR NA NUVEM
+        </button>
+
+        <div id="loginMessage" class="message"></div>
+
+        <div class="footer">
+            Ainda não é membro?
+            <a onclick="showSignup()">Criar Conta</a>
+        </div>
+
     </div>
 
-    <div class="input-box">
-        <i class="fa-solid fa-key"></i>
-        <input type="password" placeholder="Sua senha secreta">
-    </div>
+    <!-- CADASTRO -->
 
-    <button class="login-btn" onclick="login()">
-        ENTRAR NA NUVEM
-    </button>
+    <div id="signupForm" class="form hidden">
 
-    <div class="register">
-        Ainda não é membro?
-        <a href="#">Criar Conta</a>
+        <div class="input-box">
+            <i class="fa-solid fa-user"></i>
+
+            <input
+            type="text"
+            id="signupUser"
+            placeholder="Nome de usuário">
+        </div>
+
+        <div class="input-box">
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+            type="password"
+            id="signupPass"
+            placeholder="Crie uma senha">
+
+            <i
+            class="fa-solid fa-eye eye"
+            onclick="togglePassword('signupPass')"></i>
+        </div>
+
+        <div class="input-box">
+            <i class="fa-solid fa-shield"></i>
+
+            <input
+            type="password"
+            id="signupPass2"
+            placeholder="Confirme sua senha">
+
+            <i
+            class="fa-solid fa-eye eye"
+            onclick="togglePassword('signupPass2')"></i>
+        </div>
+
+        <button class="btn" onclick="signup()">
+            CRIAR CONTA
+        </button>
+
+        <div id="signupMessage" class="message"></div>
+
+        <div class="footer">
+            Já possui conta?
+            <a onclick="showLogin()">Entrar</a>
+        </div>
+
     </div>
 
 </div>
 
 <script>
-function login(){
 
-    let usuario =
-    document.querySelectorAll("input")[0].value;
+function togglePassword(id){
 
-    let senha =
-    document.querySelectorAll("input")[1].value;
+    const campo = document.getElementById(id);
 
-    if(usuario === "" || senha === ""){
-        alert("Preencha todos os campos.");
+    if(campo.type === "password"){
+        campo.type = "text";
+    }else{
+        campo.type = "password";
+    }
+}
+
+function showSignup(){
+
+    document.getElementById("loginForm")
+    .classList.add("hidden");
+
+    document.getElementById("signupForm")
+    .classList.remove("hidden");
+}
+
+function showLogin(){
+
+    document.getElementById("signupForm")
+    .classList.add("hidden");
+
+    document.getElementById("loginForm")
+    .classList.remove("hidden");
+}
+
+function signup(){
+
+    const usuario =
+    document.getElementById("signupUser")
+    .value.trim();
+
+    const senha =
+    document.getElementById("signupPass")
+    .value;
+
+    const confirmar =
+    document.getElementById("signupPass2")
+    .value;
+
+    const msg =
+    document.getElementById("signupMessage");
+
+    msg.innerHTML = "";
+    msg.className = "message";
+
+    if(usuario.length < 4){
+
+        msg.innerHTML =
+        "Usuário deve ter no mínimo 4 caracteres.";
+
+        msg.classList.add("error");
         return;
     }
 
-    alert("Login realizado com sucesso!");
+    if(senha.length < 8){
+
+        msg.innerHTML =
+        "Senha deve ter no mínimo 8 caracteres.";
+
+        msg.classList.add("error");
+        return;
+    }
+
+    if(senha !== confirmar){
+
+        msg.innerHTML =
+        "As senhas não coincidem.";
+
+        msg.classList.add("error");
+        return;
+    }
+
+    if(localStorage.getItem("user_"+usuario)){
+
+        msg.innerHTML =
+        "Este usuário já existe.";
+
+        msg.classList.add("error");
+        return;
+    }
+
+    localStorage.setItem(
+        "user_"+usuario,
+        JSON.stringify({
+            usuario:usuario,
+            senha:senha
+        })
+    );
+
+    msg.innerHTML =
+    "Conta criada com sucesso!";
+
+    msg.classList.add("success");
+
+    setTimeout(() => {
+        showLogin();
+    },1500);
 }
+
+function login(){
+
+    const usuario =
+    document.getElementById("loginUser")
+    .value.trim();
+
+    const senha =
+    document.getElementById("loginPass")
+    .value;
+
+    const msg =
+    document.getElementById("loginMessage");
+
+    msg.innerHTML = "";
+    msg.className = "message";
+
+    const conta =
+    localStorage.getItem("user_"+usuario);
+
+    if(!conta){
+
+        msg.innerHTML =
+        "Usuário não encontrado.";
+
+        msg.classList.add("error");
+        return;
+    }
+
+    const dados = JSON.parse(conta);
+
+    if(dados.senha !== senha){
+
+        msg.innerHTML =
+        "Senha incorreta.";
+
+        msg.classList.add("error");
+        return;
+    }
+
+    msg.innerHTML =
+    "Login realizado com sucesso!";
+
+    msg.classList.add("success");
+
+    setTimeout(() => {
+
+        alert(
+        "Bem-vindo, " +
+        dados.usuario +
+        "!"
+        );
+
+    },500);
+}
+
 </script>
 
 </body>

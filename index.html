@@ -110,3 +110,98 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 </body>
 </html>
+
+<!-- IDENTIDADE -->
+
+<div id="identityForm" class="form hidden">
+
+    <h1 class="identity-title">
+        Identidade
+    </h1>
+
+    <div class="avatar-preview">
+        <img id="selectedAvatar"
+        src="avatar1.png">
+    </div>
+
+    <div class="avatar-list">
+
+        <img src="avatar1.png"
+        class="avatar-option active-avatar"
+        onclick="selectAvatar(this)">
+
+        <img src="avatar2.png"
+        class="avatar-option"
+        onclick="selectAvatar(this)">
+
+        <img src="avatar3.png"
+        class="avatar-option"
+        onclick="selectAvatar(this)">
+
+        <img src="avatar4.png"
+        class="avatar-option"
+        onclick="selectAvatar(this)">
+
+    </div>
+
+    <div class="input-box">
+
+        <i class="fa-solid fa-calendar"></i>
+
+        <input
+        type="date"
+        id="birthDate">
+
+    </div>
+
+    <div class="input-box">
+
+        <i class="fa-solid fa-pen"></i>
+
+        <input
+        type="text"
+        id="bio"
+        placeholder="Bio: No que você é bom?">
+
+    </div>
+
+    <div class="gender-container">
+
+        <div
+        class="gender-card"
+        onclick="selectGender(this,'Ele')">
+
+            ♂
+            <span>ELE</span>
+
+        </div>
+
+        <div
+        class="gender-card"
+        onclick="selectGender(this,'Ela')">
+
+            ♀
+            <span>ELA</span>
+
+        </div>
+
+        <div
+        class="gender-card"
+        onclick="selectGender(this,'Neutro')">
+
+            ○
+            <span>NEUTRO</span>
+
+        </div>
+
+    </div>
+
+    <button
+    class="btn"
+    onclick="finishProfile()">
+
+        ENTRAR NA COMUNIDADE
+
+    </button>
+
+</div>

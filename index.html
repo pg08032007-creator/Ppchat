@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Cloud Premium</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="auth-card">
+    
+    <!-- Dots Indicadores (Apenas Cadastro) -->
+    <div class="step-dots hidden" id="stepDots">
+      <div class="dot active" id="dot1"></div>
+      <div class="dot" id="dot2"></div>
+    </div>
+
+    <!-- TELA 1: LOGIN -->
+    <div class="step active" id="loginStep">
+      <div class="logo-container">
+        <div class="logo-circle">
+          <img src="Logo.jpg" alt="Logo">
+        </div>
+        <p class="subtitle">Social Media Cloud Premium</p>
+      </div>
+
+      <form id="loginForm" onsubmit="event.preventDefault(); handleSignin();">
+        <div class="input-group">
+          <i class="fa-solid fa-at input-icon"></i>
+          <input type="text" id="loginUsername" placeholder="Nome de usuário" required>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input type="password" id="loginPassword" placeholder="Sua senha secreta" required>
+          <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('loginPassword', this)"></i>
+        </div>
+
+        <button type="submit" class="btn-submit">ENTRAR NA NUVEM</button>
+
+        <p class="footer-text">
+          Ainda não é membro? <a href="#" onclick="showRegister(event)">Criar Conta</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- CADASTRO - ETAPA 1 -->
+    <div class="step hidden" id="registerStep1">
+      <div class="logo-container">
+        <div class="logo-circle">
+          <img src="Logo.jpg" alt="Logo">
+        </div>
+        <p class="subtitle">Social Media Cloud Premium</p>
+      </div>
+
+      <form id="regForm1" onsubmit="event.preventDefault(); goToRegisterStep2();">
+        <div class="input-group">
+          <i class="fa-solid fa-envelope input-icon"></i>
+          <input type="email" placeholder="Seu e-mail" required>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-user input-icon"></i>
+          <input type="text" placeholder="Nome de usuário" required>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input type="password" id="regPassword" placeholder="Crie uma senha" required>
+          <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('regPassword', this)"></i>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-shield-halved input-icon"></i>
+          <input type="password" id="regConfirmPassword" placeholder="Confirme sua senha" required>
+          <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('regConfirmPassword', this)"></i>
+        </div>
+
+        <button type="submit" class="btn-submit">CRIAR CONTA</button>
+
+        <p class="footer-text">
+          Já possui conta? <a href="#" onclick="showLogin(event)">Entrar</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- CADASTRO - ETAPA 2 (IDENTIDADE COM ROLETA DE AVATARES) -->
+    <div class="step hidden" id="registerStep2">
+      <h2 class="section-title">Identidade</h2>
+
+      <div class="avatar-section">
+        <!-- Avatar Destaque Grande -->
+        <div class="main-avatar-wrapper">
+          <div class="main-avatar-ring">
+            <img id="avatarPreview" src="https://api.dicebear.com/7.x/big-smile/svg?seed=Pajama&backgroundColor=b6e3f4" alt="Avatar">
+          </div>
+          <label for="avatarInput" class="camera-badge" title="Enviar Foto">
+            <i class="fa-solid fa-camera"></i>
+          </label>
+          <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="previewImage(event)">
+        </div>
+
+        <!-- Roleta / Carrossel Horizontal de Avatares -->
+        <div class="avatars-row" id="avatarsRow">
+          <!-- Gerado via JavaScript -->
+        </div>
+      </div>
+
+      <form id="regForm2" onsubmit="event.preventDefault(); finishRegister();">
+        <div class="input-group">
+          <i class="fa-solid fa-calendar input-icon"></i>
+          <input type="date" required>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-pen input-icon"></i>
+          <input type="text" placeholder="Bio: No que você é bom?" >
+        </div>
+
+<div class="gender-selector">
+  <button type="button" class="gender-btn" onclick="setGender(this)">
+    <i class="fa-solid fa-mars"></i>
+    <span>ELE</span>
+  </button>
+  <button type="button" class="gender-btn" onclick="setGender(this)">
+    <i class="fa-solid fa-venus"></i>
+    <span>ELA</span>
+  </button>
+  <button type="button" class="gender-btn" onclick="setGender(this)">
+    <i class="fa-solid fa-genderless"></i>
+    <span>NEUTRO</span>
+  </button>
+</div>
+
+
+        <button type="submit" class="btn-submit">ENTRAR NA COMUNIDADE</button>
+
+        <button type="button" class="btn-back" onclick="goToRegisterStep1()">
+          <i class="fa-solid fa-arrow-left"></i> Voltar à etapa 1
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

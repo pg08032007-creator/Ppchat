@@ -1,152 +1,644 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media Cloud Premium</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Digital</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --button-bg: #2a2a2a;
+            --accent-yellow: #f1c40f;
+            --accent-green: #27ae60;
+            --text-color: #ffffff;
+            --text-muted: #aaa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background-color: #181818;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* LOGO & CABEÇALHO */
+        .logo-box {
+            border: 2px dashed #666;
+            padding: 15px;
+            text-align: center;
+            margin: 10px auto;
+            width: 140px;
+            border-radius: 8px;
+        }
+
+        .logo-box h3 { font-size: 14px; letter-spacing: 2px; }
+        .logo-box h2 { font-size: 18px; font-weight: bold; }
+
+        .title-main {
+            text-align: center;
+            font-size: 28px;
+            letter-spacing: 2px;
+            margin: 20px 0;
+            font-weight: 800;
+        }
+
+        /* BOTÕES MENU PRINCIPAL */
+        .grid-menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn-menu {
+            background-color: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 18px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-delivery {
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .banner-img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            height: 200px;
+        }
+
+        .callout {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .callout p {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: var(--accent-yellow);
+            font-size: 18px;
+        }
+
+        .callout h3 {
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        .social-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .btn-social {
+            background-color: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* TELA DE ITENS (HAMBÚRGUER / BEBIDAS) */
+        .header-category {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .header-category h2 {
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .header-category span {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: var(--accent-yellow);
+            font-size: 14px;
+            display: block;
+        }
+
+        .icon-badge {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-yellow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .item-card {
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 15px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .item-title {
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .item-price {
+            color: var(--accent-yellow);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .item-desc {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin: 5px 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        /* CONTADOR DE QUANTIDADE */
+        .counter-box {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-counter {
+            background-color: var(--button-bg);
+            color: white;
+            border: 1px solid #555;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .counter-value {
+            font-weight: bold;
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-nav {
+            flex: 1;
+            background-color: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-next {
+            background-color: var(--accent-yellow);
+            color: #000;
+        }
+
+        /* FORMULÁRIO CHECKOUT */
+        .checkout-summary {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .summary-total {
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--accent-yellow);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background-color: var(--card-bg);
+            color: white;
+            font-size: 14px;
+        }
+
+        .btn-finish {
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-
-
 <body>
 
-  <div class="auth-card">
-    
-    <!-- Dots Indicadores (Apenas Cadastro) -->
-    <div class="step-dots hidden" id="stepDots">
-      <div class="dot active" id="dot1"></div>
-      <div class="dot" id="dot2"></div>
+<div class="container">
+
+    <!-- TELA 1: HOME / MENU PRINCIPAL -->
+    <div id="screen-home" class="screen active">
+        <div class="logo-box">
+            <h3>SUA</h3>
+            <h2>LOGO</h2>
+            <h3>AQUI</h3>
+        </div>
+
+        <h1 class="title-main">CARDÁPIO</h1>
+
+        <div class="grid-menu">
+            <button class="btn-menu" onclick="showScreen('screen-hamb')">Hambúrguer</button>
+            <button class="btn-menu" onclick="alert('Opção indisponível no momento.')">Pizzas</button>
+            <button class="btn-menu" onclick="alert('Opção indisponível no momento.')">Porções</button>
+            <button class="btn-menu" onclick="showScreen('screen-bebidas')">Bebidas</button>
+        </div>
+
+        <button class="btn-delivery">
+            Delivery (00) 0000-0000 💬
+        </button>
+
+        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" alt="Hambúrguer e Batata" class="banner-img">
+
+        <div class="callout">
+            <p>Está com Fome?</p>
+            <h3>PEÇA LOGO O SEU!</h3>
+        </div>
+
+        <div class="social-buttons">
+            <button class="btn-social">CURTIR 👍</button>
+            <button class="btn-social">SEGUIR 📸</button>
+        </div>
     </div>
 
-    <!-- TELA 1: LOGIN -->
-    <div class="step active" id="loginStep">
-      <div class="logo-container">
-        <div class="logo-circle">
-          <img src="Logo.jpg" alt="Logo">
-        </div>
-        <p class="subtitle">Social Media Cloud Premium</p>
-      </div>
-
-      <form id="loginForm" onsubmit="event.preventDefault(); handleSignin();">
-        <div class="input-group">
-          <i class="fa-solid fa-at input-icon"></i>
-          <input type="text" id="loginUsername" placeholder="Nome de usuário" required>
+    <!-- TELA 2: CARDÁPIO DE HAMBÚRGUERES -->
+    <div id="screen-hamb" class="screen">
+        <div class="header-category">
+            <div>
+                <h2>Hambúrguer</h2>
+                <span>gourmet</span>
+            </div>
+            <div class="icon-badge">🍔</div>
         </div>
 
-        <div class="input-group">
-          <i class="fa-solid fa-lock input-icon"></i>
-          <input type="password" id="loginPassword" placeholder="Sua senha secreta" required>
-          <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('loginPassword', this)"></i>
+        <div id="hamb-list"></div>
+
+        <div class="nav-buttons">
+            <button class="btn-nav" onclick="showScreen('screen-home')">← Voltar</button>
+            <button class="btn-nav btn-next" onclick="showScreen('screen-bebidas')">Avançar ➔</button>
         </div>
-
-        <button type="submit" class="btn-submit">ENTRAR NA NUVEM</button>
-
-        <p class="footer-text">
-          Ainda não é membro? <a href="#" onclick="showRegister(event)">Criar Conta</a>
-        </p>
-      </form>
     </div>
 
-    <!-- CADASTRO - ETAPA 1 -->
-    <div class="step hidden" id="registerStep1">
-      <div class="logo-container">
-        <div class="logo-circle">
-          <img src="Logo.jpg" alt="Logo">
-        </div>
-        <p class="subtitle">Social Media Cloud Premium</p>
-      </div>
-
-      <form id="regForm1" onsubmit="event.preventDefault(); goToRegisterStep2();">
-        <div class="input-group">
-          <i class="fa-solid fa-envelope input-icon"></i>
-          <input type="email" placeholder="Seu e-mail" required>
+    <!-- TELA 3: CARDÁPIO DE BEBIDAS -->
+    <div id="screen-bebidas" class="screen">
+        <div class="header-category">
+            <div>
+                <h2>Bebidas</h2>
+                <span>refrescantes</span>
+            </div>
+            <div class="icon-badge">🥤</div>
         </div>
 
-        <div class="input-group">
-          <i class="fa-solid fa-user input-icon"></i>
-          <input type="text" placeholder="Nome de usuário" required>
+        <div id="bebidas-list"></div>
+
+        <div class="nav-buttons">
+            <button class="btn-nav" onclick="showScreen('screen-hamb')">← Voltar</button>
+            <button id="btn-bebidas-next" class="btn-nav btn-next" onclick="showScreen('screen-checkout')">Pular</button>
         </div>
-
-        <div class="input-group">
-          <i class="fa-solid fa-lock input-icon"></i>
-          <input type="password" id="regPassword" placeholder="Crie uma senha" required>
-          <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('regPassword', this)"></i>
-        </div>
-
-        <div class="input-group">
-          <i class="fa-solid fa-shield-halved input-icon"></i>
-          <input type="password" id="regConfirmPassword" placeholder="Confirme sua senha" required>
-          <i class="fa-regular fa-eye toggle-password" onclick="toggleVisibility('regConfirmPassword', this)"></i>
-        </div>
-
-        <button type="submit" class="btn-submit">CRIAR CONTA</button>
-
-        <p class="footer-text">
-          Já possui conta? <a href="#" onclick="showLogin(event)">Entrar</a>
-        </p>
-      </form>
     </div>
 
-    <!-- CADASTRO - ETAPA 2 (IDENTIDADE COM ROLETA DE AVATARES) -->
-    <div class="step hidden" id="registerStep2">
-      <h2 class="section-title">Identidade</h2>
-
-      <div class="avatar-section">
-        <!-- Avatar Destaque Grande -->
-        <div class="main-avatar-wrapper">
-          <div class="main-avatar-ring">
-            <img id="avatarPreview" src="https://api.dicebear.com/7.x/big-smile/svg?seed=Pajama&backgroundColor=b6e3f4" alt="Avatar">
-          </div>
-          <label for="avatarInput" class="camera-badge" title="Enviar Foto">
-            <i class="fa-solid fa-camera"></i>
-          </label>
-          <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="previewImage(event)">
+    <!-- TELA 4: CHECKOUT / PAGAMENTO -->
+    <div id="screen-checkout" class="screen">
+        <div class="header-category">
+            <div>
+                <h2>Finalizar</h2>
+                <span>seu pedido</span>
+            </div>
+            <div class="icon-badge">🛒</div>
         </div>
 
-        <!-- Roleta / Carrossel Horizontal de Avatares -->
-        <div class="avatars-row" id="avatarsRow">
-          <!-- Gerado via JavaScript -->
-        </div>
-      </div>
-
-      <form id="regForm2" onsubmit="event.preventDefault(); finishRegister();">
-        <div class="input-group">
-          <i class="fa-solid fa-calendar input-icon"></i>
-          <input type="date" required>
+        <div class="checkout-summary" id="checkout-summary">
+            <!-- Resumo injetado via JS -->
         </div>
 
-        <div class="input-group">
-          <i class="fa-solid fa-pen input-icon"></i>
-          <input type="text" placeholder="Bio: No que você é bom?" >
-        </div>
+        <form id="order-form" onsubmit="sendOrder(event)">
+            <div class="form-group">
+                <label>Nome Completo*</label>
+                <input type="text" id="nome" required placeholder="Digite seu nome">
+            </div>
 
-<div class="gender-selector">
-  <button type="button" class="gender-btn" onclick="setGender(this)">
-    <i class="fa-solid fa-mars"></i>
-    <span>ELE</span>
-  </button>
-  <button type="button" class="gender-btn" onclick="setGender(this)">
-    <i class="fa-solid fa-venus"></i>
-    <span>ELA</span>
-  </button>
-  <button type="button" class="gender-btn" onclick="setGender(this)">
-    <i class="fa-solid fa-genderless"></i>
-    <span>NEUTRO</span>
-  </button>
+            <div class="form-group">
+                <label>Rua / Avenida*</label>
+                <input type="text" id="rua" required placeholder="Ex: Rua das Flores">
+            </div>
+
+            <div class="form-group" style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Número*</label>
+                    <input type="text" id="numero" required placeholder="123">
+                </div>
+                <div style="flex: 2;">
+                    <label>Bairro*</label>
+                    <input type="text" id="bairro" required placeholder="Centro">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Ponto de Referência* (Não erre o endereço)</label>
+                <input type="text" id="referencia" required placeholder="Ex: Próximo à padaria X">
+            </div>
+
+            <div class="form-group">
+                <label>Forma de Pagamento*</label>
+                <select id="pagamento" required onchange="toggleTroco(this.value)">
+                    <option value="Cartão">Cartão (Débito/Crédito)</option>
+                    <option value="PIX">PIX</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="troco-group" style="display: none;">
+                <label>Precisa de troco para quanto?</label>
+                <input type="text" id="troco" placeholder="Ex: Troco para R$ 50,00">
+            </div>
+
+            <button type="submit" class="btn-finish">Enviar Pedido pelo WhatsApp</button>
+            <button type="button" class="btn-nav" style="width: 100%; margin-top: 10px;" onclick="showScreen('screen-bebidas')">← Voltar</button>
+        </form>
+    </div>
+
 </div>
 
+<script>
+    // Dados dos Produtos
+    const hamburgueres = [
+        { id: 'h1', name: 'X FILÉ ESPECIAL', price: 24.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
+        { id: 'h2', name: 'X TURBINADO', price: 12.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
+        { id: 'h3', name: 'X BACON DUPLO', price: 18.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
+        { id: 'h4', name: 'TRIPLO X', price: 18.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
+        { id: 'h5', name: 'X FRANGO C/ BACON', price: 12.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
+        { id: 'h6', name: 'X HOT DOG', price: 9.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' }
+    ];
 
-        <button type="submit" class="btn-submit">ENTRAR NA COMUNIDADE</button>
+    const bebidas = [
+        { id: 'b1', name: 'COCA-COLA 2L', price: 12.00, desc: 'REFRIGERANTE GARRAFA 2 LITROS' },
+        { id: 'b2', name: 'COCA-COLA LATA', price: 6.00, desc: 'LATA 350ML' },
+        { id: 'b3', name: 'GUARANÁ ANTARCTICA 2L', price: 10.00, desc: 'REFRIGERANTE GARRAFA 2 LITROS' },
+        { id: 'b4', name: 'SUCO NATURAL 500ML', price: 8.00, desc: 'SABOR LARANJA OU MARACUJÁ' },
+        { id: 'b5', name: 'ÁGUA MINERAL', price: 4.00, desc: 'SEM GÁS 500ML' }
+    ];
 
-        <button type="button" class="btn-back" onclick="goToRegisterStep1()">
-          <i class="fa-solid fa-arrow-left"></i> Voltar à etapa 1
-        </button>
-      </form>
-    </div>
+    // Estado do Carrinho { item_id: quantidade }
+    const cart = {};
 
-  </div>
+    // Inicialização da interface
+    function initMenu() {
+        renderCategory('hamb-list', hamburgueres);
+        renderCategory('bebidas-list', bebidas);
+    }
 
-  <script src="script.js"></script>
+    function renderCategory(containerId, items) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = items.map(item => `
+            <div class="item-card">
+                <div class="item-header">
+                    <span class="item-title">${item.name}</span>
+                    <span class="item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+                </div>
+                <div class="item-desc">${item.desc}</div>
+                <div class="counter-box">
+                    <button class="btn-counter" onclick="updateQty('${item.id}', -1)">-</button>
+                    <span class="counter-value" id="qty-${item.id}">0</span>
+                    <button class="btn-counter" onclick="updateQty('${item.id}', 1)">+</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function updateQty(id, change) {
+        const current = cart[id] || 0;
+        const updated = Math.max(0, current + change);
+        
+        if (updated === 0) {
+            delete cart[id];
+        } else {
+            cart[id] = updated;
+        }
+
+        document.getElementById(`qty-${id}`).innerText = updated;
+        checkBebidasStatus();
+    }
+
+    function checkBebidasStatus() {
+        // Verifica se há alguma bebida selecionada
+        const hasBebida = bebidas.some(b => cart[b.id] && cart[b.id] > 0);
+        const btnNext = document.getElementById('btn-bebidas-next');
+        
+        if (hasBebida) {
+            btnNext.innerText = 'Próximo ➔';
+        } else {
+            btnNext.innerText = 'Pular';
+        }
+    }
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+        window.scrollTo(0, 0);
+
+        if (screenId === 'screen-checkout') {
+            renderCheckout();
+        }
+    }
+
+    function renderCheckout() {
+        const summaryContainer = document.getElementById('checkout-summary');
+        let total = 0;
+        let html = '';
+
+        const allProducts = [...hamburgueres, ...bebidas];
+        let hasItems = false;
+
+        allProducts.forEach(item => {
+            const qty = cart[item.id] || 0;
+            if (qty > 0) {
+                hasItems = true;
+                const subtotal = item.price * qty;
+                total += subtotal;
+                html += `
+                    <div class="summary-item">
+                        <span>${qty}x ${item.name}</span>
+                        <span>R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                `;
+            }
+        });
+
+        if (!hasItems) {
+            html = '<p style="text-align:center; color: #aaa;">Nenhum item selecionado.</p>';
+        } else {
+            html += `
+                <div class="summary-total summary-item">
+                    <span>TOTAL:</span>
+                    <span>R$ ${total.toFixed(2).replace('.', ',')}</span>
+                </div>
+            `;
+        }
+
+        summaryContainer.innerHTML = html;
+    }
+
+    function toggleTroco(value) {
+        document.getElementById('troco-group').style.display = value === 'Dinheiro' ? 'block' : 'none';
+    }
+
+    function sendOrder(e) {
+        e.preventDefault();
+
+        const allProducts = [...hamburgueres, ...bebidas];
+        let total = 0;
+        let orderText = "*NOVO PEDIDO DE ENTREGA*\n\n*ITENS:* \n";
+
+        let hasItems = false;
+        allProducts.forEach(item => {
+            const qty = cart[item.id] || 0;
+            if (qty > 0) {
+                hasItems = true;
+                const subtotal = item.price * qty;
+                total += subtotal;
+                orderText += `• ${qty}x ${item.name} - R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+            }
+        });
+
+        if (!hasItems) {
+            alert("Por favor, selecione ao menos um item para fazer o pedido.");
+            return;
+        }
+
+        orderText += `\n*TOTAL:* R$ ${total.toFixed(2).replace('.', ',')}\n`;
+        orderText += `\n*DADOS DE ENTREGA:*`;
+        orderText += `\n👤 *Nome:* ${document.getElementById('nome').value}`;
+        orderText += `\n📍 *Endereço:* ${document.getElementById('rua').value}, Nº ${document.getElementById('numero').value}`;
+        orderText += `\n🏙️ *Bairro:* ${document.getElementById('bairro').value}`;
+        orderText += `\n🗺️ *Ponto de Referência:* ${document.getElementById('referencia').value}`;
+        
+        const pag = document.getElementById('pagamento').value;
+        orderText += `\n💳 *Forma de Pagamento:* ${pag}`;
+        
+        if (pag === 'Dinheiro') {
+            const troco = document.getElementById('troco').value;
+            orderText += troco ? ` (${troco})` : ` (Sem troco informado)`;
+        }
+
+        // Insira seu número de WhatsApp aqui no formato internacional (Ex: 5538999999999)
+        const phone = "5500000000000"; 
+        const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(orderText)}`;
+        
+        window.open(url, '_blank');
+    }
+
+    // Inicializa na abertura
+    initMenu();
+</script>
+
 </body>
 </html>

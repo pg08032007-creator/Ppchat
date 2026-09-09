@@ -155,7 +155,7 @@
             cursor: pointer;
         }
 
-        /* TELA DE ITENS (HAMBÚRGUER / BEBIDAS) */
+        /* TELA DE ITENS */
         .header-category {
             display: flex;
             justify-content: space-between;
@@ -250,6 +250,33 @@
             text-align: center;
         }
 
+        /* ABAS DE SELEÇÃO DE LANCHE EM ADICIONAIS */
+        .burger-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            background-color: var(--button-bg);
+            color: white;
+            border: 1px solid #444;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            background-color: var(--accent-yellow);
+            color: black;
+            font-weight: bold;
+            border-color: var(--accent-yellow);
+        }
+
         .nav-buttons {
             display: flex;
             gap: 10px;
@@ -286,6 +313,14 @@
             justify-content: space-between;
             margin-bottom: 8px;
             font-size: 14px;
+        }
+
+        .summary-add-on {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 15px;
+            display: flex;
+            justify-content: space-between;
         }
 
         .summary-total {
@@ -384,11 +419,30 @@
 
         <div class="nav-buttons">
             <button class="btn-nav" onclick="showScreen('screen-home')">← Voltar</button>
-            <button class="btn-nav btn-next" onclick="showScreen('screen-bebidas')">Avançar ➔</button>
+            <button class="btn-nav btn-next" onclick="goToAddons()">Avançar ➔</button>
         </div>
     </div>
 
-    <!-- TELA 3: CARDÁPIO DE BEBIDAS -->
+    <!-- TELA 3: ADICIONAIS POR LANCHE -->
+    <div id="screen-addons" class="screen">
+        <div class="header-category">
+            <div>
+                <h2>Adicionais</h2>
+                <span>personalize seu lanche</span>
+            </div>
+            <div class="icon-badge">🧀</div>
+        </div>
+
+        <div class="burger-tabs" id="burger-tabs"></div>
+        <div id="addons-list"></div>
+
+        <div class="nav-buttons">
+            <button class="btn-nav" onclick="showScreen('screen-hamb')">← Voltar</button>
+            <button id="btn-addons-next" class="btn-nav btn-next" onclick="showScreen('screen-bebidas')">Pular</button>
+        </div>
+    </div>
+
+    <!-- TELA 4: CARDÁPIO DE BEBIDAS -->
     <div id="screen-bebidas" class="screen">
         <div class="header-category">
             <div>
@@ -401,12 +455,12 @@
         <div id="bebidas-list"></div>
 
         <div class="nav-buttons">
-            <button class="btn-nav" onclick="showScreen('screen-hamb')">← Voltar</button>
+            <button class="btn-nav" onclick="showScreen('screen-addons')">← Voltar</button>
             <button id="btn-bebidas-next" class="btn-nav btn-next" onclick="showScreen('screen-checkout')">Pular</button>
         </div>
     </div>
 
-    <!-- TELA 4: CHECKOUT / PAGAMENTO -->
+    <!-- TELA 5: CHECKOUT / PAGAMENTO -->
     <div id="screen-checkout" class="screen">
         <div class="header-category">
             <div>
@@ -416,9 +470,7 @@
             <div class="icon-badge">🛒</div>
         </div>
 
-        <div class="checkout-summary" id="checkout-summary">
-            <!-- Resumo injetado via JS -->
-        </div>
+        <div class="checkout-summary" id="checkout-summary"></div>
 
         <form id="order-form" onsubmit="sendOrder(event)">
             <div class="form-group">
@@ -443,7 +495,7 @@
             </div>
 
             <div class="form-group">
-                <label>Ponto de Referência* (Não erre o endereço)</label>
+                <label>Ponto de Referência* (Para não errar o endereço)</label>
                 <input type="text" id="referencia" required placeholder="Ex: Próximo à padaria X">
             </div>
 
@@ -469,7 +521,6 @@
 </div>
 
 <script>
-    // Dados dos Produtos
     const hamburgueres = [
         { id: 'h1', name: 'X FILÉ ESPECIAL', price: 24.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
         { id: 'h2', name: 'X TURBINADO', price: 12.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
@@ -477,6 +528,16 @@
         { id: 'h4', name: 'TRIPLO X', price: 18.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
         { id: 'h5', name: 'X FRANGO C/ BACON', price: 12.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' },
         { id: 'h6', name: 'X HOT DOG', price: 9.00, desc: 'HAMBÚRGUER ARTESANAL 150G, ALFACE, TOMATE, QUEIJO, OVOS, BACON, BATATA PALHA' }
+    ];
+
+    const listaAdicionais = [
+        { id: 'a1', name: 'FRANGO', price: 4.00 },
+        { id: 'a2', name: 'HAMBÚRGUER Extra', price: 5.00 },
+        { id: 'a3', name: 'BACON', price: 3.50 },
+        { id: 'a4', name: 'CATUPIRY OU CHEDDAR', price: 3.00 },
+        { id: 'a5', name: 'OVO', price: 2.00 },
+        { id: 'a6', name: 'PRESUNTO', price: 2.00 },
+        { id: 'a7', name: 'MUSSARELA', price: 2.50 }
     ];
 
     const bebidas = [
@@ -487,16 +548,18 @@
         { id: 'b5', name: 'ÁGUA MINERAL', price: 4.00, desc: 'SEM GÁS 500ML' }
     ];
 
-    // Estado do Carrinho { item_id: quantidade }
-    const cart = {};
+    // Estruturas de Dados
+    const cartHamb = {}; // { h1: 2 }
+    const selectedBurgers = []; // [{ uid: 'h1_1', id: 'h1', name: 'X FILÉ ESPECIAL', price: 24.00, addons: { a1: 1 } }]
+    const cartBebidas = {}; // { b1: 1 }
+    let currentBurgerIndex = 0;
 
-    // Inicialização da interface
     function initMenu() {
-        renderCategory('hamb-list', hamburgueres);
-        renderCategory('bebidas-list', bebidas);
+        renderCategory('hamb-list', hamburgueres, 'hamb');
+        renderCategory('bebidas-list', bebidas, 'bebida');
     }
 
-    function renderCategory(containerId, items) {
+    function renderCategory(containerId, items, type) {
         const container = document.getElementById(containerId);
         container.innerHTML = items.map(item => `
             <div class="item-card">
@@ -506,38 +569,122 @@
                 </div>
                 <div class="item-desc">${item.desc}</div>
                 <div class="counter-box">
-                    <button class="btn-counter" onclick="updateQty('${item.id}', -1)">-</button>
-                    <span class="counter-value" id="qty-${item.id}">0</span>
-                    <button class="btn-counter" onclick="updateQty('${item.id}', 1)">+</button>
+                    <button class="btn-counter" onclick="updateQty('${item.id}', -1, '${type}')">-</button>
+                    <span class="counter-value" id="qty-${type}-${item.id}">0</span>
+                    <button class="btn-counter" onclick="updateQty('${item.id}', 1, '${type}')">+</button>
                 </div>
             </div>
         `).join('');
     }
 
-    function updateQty(id, change) {
-        const current = cart[id] || 0;
+    function updateQty(id, change, type) {
+        const cartObj = type === 'hamb' ? cartHamb : cartBebidas;
+        const current = cartObj[id] || 0;
         const updated = Math.max(0, current + change);
-        
+
         if (updated === 0) {
-            delete cart[id];
+            delete cartObj[id];
         } else {
-            cart[id] = updated;
+            cartObj[id] = updated;
         }
 
-        document.getElementById(`qty-${id}`).innerText = updated;
-        checkBebidasStatus();
+        document.getElementById(`qty-${type}-${id}`).innerText = updated;
+        if (type === 'bebida') checkBebidasStatus();
+    }
+
+    function goToAddons() {
+        selectedBurgers.length = 0; // Limpa seleção anterior de adicionais
+        let counter = 1;
+
+        // Cria instâncias individuais de cada hambúrguer selecionado
+        for (const [id, qty] of Object.entries(cartHamb)) {
+            const burgerInfo = hamburgueres.find(h => h.id === id);
+            for (let i = 0; i < qty; i++) {
+                selectedBurgers.push({
+                    uid: `${id}_${i}`,
+                    id: burgerInfo.id,
+                    name: `${burgerInfo.name} (#${counter})`,
+                    price: burgerInfo.price,
+                    addons: {}
+                });
+                counter++;
+            }
+        }
+
+        if (selectedBurgers.length === 0) {
+            showScreen('screen-bebidas');
+            return;
+        }
+
+        currentBurgerIndex = 0;
+        renderAddonsTabs();
+        renderAddonsList();
+        showScreen('screen-addons');
+    }
+
+    function renderAddonsTabs() {
+        const tabsContainer = document.getElementById('burger-tabs');
+        tabsContainer.innerHTML = selectedBurgers.map((b, index) => `
+            <button class="tab-btn ${index === currentBurgerIndex ? 'active' : ''}" onclick="selectBurgerTab(${index})">
+                ${b.name}
+            </button>
+        `).join('');
+    }
+
+    function selectBurgerTab(index) {
+        currentBurgerIndex = index;
+        renderAddonsTabs();
+        renderAddonsList();
+    }
+
+    function renderAddonsList() {
+        const container = document.getElementById('addons-list');
+        const currentBurger = selectedBurgers[currentBurgerIndex];
+
+        container.innerHTML = listaAdicionais.map(addon => {
+            const qty = currentBurger.addons[addon.id] || 0;
+            return `
+                <div class="item-card">
+                    <div class="item-header">
+                        <span class="item-title">${addon.name}</span>
+                        <span class="item-price">+ R$ ${addon.price.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div class="counter-box" style="margin-top: 10px;">
+                        <button class="btn-counter" onclick="updateAddonQty('${addon.id}', -1)">-</button>
+                        <span class="counter-value">${qty}</span>
+                        <button class="btn-counter" onclick="updateAddonQty('${addon.id}', 1)">+</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        checkAddonsStatus();
+    }
+
+    function updateAddonQty(addonId, change) {
+        const currentBurger = selectedBurgers[currentBurgerIndex];
+        const current = currentBurger.addons[addonId] || 0;
+        const updated = Math.max(0, current + change);
+
+        if (updated === 0) {
+            delete currentBurger.addons[addonId];
+        } else {
+            currentBurger.addons[addonId] = updated;
+        }
+
+        renderAddonsList();
+    }
+
+    function checkAddonsStatus() {
+        const hasAnyAddon = selectedBurgers.some(b => Object.keys(b.addons).length > 0);
+        const btnNext = document.getElementById('btn-addons-next');
+        btnNext.innerText = hasAnyAddon ? 'Próximo ➔' : 'Pular';
     }
 
     function checkBebidasStatus() {
-        // Verifica se há alguma bebida selecionada
-        const hasBebida = bebidas.some(b => cart[b.id] && cart[b.id] > 0);
+        const hasBebida = bebidas.some(b => cartBebidas[b.id] && cartBebidas[b.id] > 0);
         const btnNext = document.getElementById('btn-bebidas-next');
-        
-        if (hasBebida) {
-            btnNext.innerText = 'Próximo ➔';
-        } else {
-            btnNext.innerText = 'Pular';
-        }
+        btnNext.innerText = hasBebida ? 'Próximo ➔' : 'Pular';
     }
 
     function showScreen(screenId) {
@@ -555,17 +702,35 @@
         let total = 0;
         let html = '';
 
-        const allProducts = [...hamburgueres, ...bebidas];
-        let hasItems = false;
+        // 1. Hambúrgueres e seus adicionais
+        selectedBurgers.forEach(b => {
+            let burgerTotal = b.price;
+            html += `<div class="summary-item">
+                        <span>1x ${b.name}</span>
+                        <span>R$ ${b.price.toFixed(2).replace('.', ',')}</span>
+                     </div>`;
 
-        allProducts.forEach(item => {
-            const qty = cart[item.id] || 0;
+            Object.entries(b.addons).forEach(([addonId, qty]) => {
+                const addonInfo = listaAdicionais.find(a => a.id === addonId);
+                const addonTotal = addonInfo.price * qty;
+                burgerTotal += addonTotal;
+                html += `<div class="summary-add-on">
+                            <span>+ ${qty}x ${addonInfo.name}</span>
+                            <span>R$ ${addonTotal.toFixed(2).replace('.', ',')}</span>
+                         </div>`;
+            });
+
+            total += burgerTotal;
+        });
+
+        // 2. Bebidas
+        bebidas.forEach(item => {
+            const qty = cartBebidas[item.id] || 0;
             if (qty > 0) {
-                hasItems = true;
                 const subtotal = item.price * qty;
                 total += subtotal;
                 html += `
-                    <div class="summary-item">
+                    <div class="summary-item" style="margin-top: 5px;">
                         <span>${qty}x ${item.name}</span>
                         <span>R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
                     </div>
@@ -573,7 +738,7 @@
             }
         });
 
-        if (!hasItems) {
+        if (selectedBurgers.length === 0 && Object.keys(cartBebidas).length === 0) {
             html = '<p style="text-align:center; color: #aaa;">Nenhum item selecionado.</p>';
         } else {
             html += `
@@ -594,27 +759,47 @@
     function sendOrder(e) {
         e.preventDefault();
 
-        const allProducts = [...hamburgueres, ...bebidas];
-        let total = 0;
-        let orderText = "*NOVO PEDIDO DE ENTREGA*\n\n*ITENS:* \n";
+        if (selectedBurgers.length === 0 && Object.keys(cartBebidas).length === 0) {
+            alert("Por favor, selecione ao menos um item para fazer o pedido.");
+            return;
+        }
 
-        let hasItems = false;
-        allProducts.forEach(item => {
-            const qty = cart[item.id] || 0;
+        let total = 0;
+        let orderText = "*NOVO PEDIDO DE ENTREGA*\n\n*ITENS SELECIONADOS:* \n";
+
+        // Hambúrgueres + Adicionais
+        selectedBurgers.forEach(b => {
+            let burgerTotal = b.price;
+            orderText += `\n🍔 *${b.name}* - R$ ${b.price.toFixed(2).replace('.', ',')}\n`;
+
+            Object.entries(b.addons).forEach(([addonId, qty]) => {
+                const addonInfo = listaAdicionais.find(a => a.id === addonId);
+                const addonTotal = addonInfo.price * qty;
+                burgerTotal += addonTotal;
+                orderText += `   └ + ${qty}x ${addonInfo.name} (R$ ${addonTotal.toFixed(2).replace('.', ',')})\n`;
+            });
+
+            total += burgerTotal;
+        });
+
+        // Bebidas
+        let temBebidaHeader = false;
+        bebidas.forEach(item => {
+            const qty = cartBebidas[item.id] || 0;
             if (qty > 0) {
-                hasItems = true;
+                if (!temBebidaHeader) {
+                    orderText += `\n🥤 *BEBIDAS:*\n`;
+                    temBebidaHeader = true;
+                }
                 const subtotal = item.price * qty;
                 total += subtotal;
                 orderText += `• ${qty}x ${item.name} - R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
             }
         });
 
-        if (!hasItems) {
-            alert("Por favor, selecione ao menos um item para fazer o pedido.");
-            return;
-        }
-
-        orderText += `\n*TOTAL:* R$ ${total.toFixed(2).replace('.', ',')}\n`;
+        orderText += `\n------------------------------`;
+        orderText += `\n💰 *VALOR TOTAL:* R$ ${total.toFixed(2).replace('.', ',')}`;
+        orderText += `\n------------------------------\n`;
         orderText += `\n*DADOS DE ENTREGA:*`;
         orderText += `\n👤 *Nome:* ${document.getElementById('nome').value}`;
         orderText += `\n📍 *Endereço:* ${document.getElementById('rua').value}, Nº ${document.getElementById('numero').value}`;
@@ -629,14 +814,13 @@
             orderText += troco ? ` (${troco})` : ` (Sem troco informado)`;
         }
 
-        // Insira seu número de WhatsApp aqui no formato internacional (Ex: 5538999999999)
+        // Configure seu número de WhatsApp com DDD aqui:
         const phone = "5500000000000"; 
         const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(orderText)}`;
         
         window.open(url, '_blank');
     }
 
-    // Inicializa na abertura
     initMenu();
 </script>
 
